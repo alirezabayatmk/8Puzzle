@@ -34,12 +34,12 @@ public class Eight_Puzzle {
      {1, 0, 4},
      {8, 7, 5}
 
-    // one no backtrack local maxima test input example
+    // no backtrack local maxima test input example
      {1, 4, 0},
      {8, 3, 2},
      {7, 6, 5}
 
-    // one impossible local maxima test input example
+    // impossible local maxima test input example
      {1, 2, 0},
      {8, 3, 4},
      {7, 6, 5}
@@ -63,13 +63,13 @@ public class Eight_Puzzle {
     Node min_fn_node;
 
     Random random = new Random();
-    Stack<Node> stack_state = new Stack<>();//for backtracking
+    Stack<Node> stack_state = new Stack<>();
 
     //initializations
     public void initializations() {
 
-        locateEmptyTilePosition();//set empty tile position
-        min_fn = get_fn(game_board);//-? min fn
+        locateEmptyTilePosition();
+        min_fn = get_fn(game_board);
 
         System.out.println("=========================================");
         printState(game_board, "initial problem state");
@@ -77,7 +77,7 @@ public class Eight_Puzzle {
         System.out.println("initial fn (number of misplaced tiles): " + min_fn);
         System.out.println("=========================================");
 
-        //start hill climbing search
+
         try {
             hill_climbing_search();
         } catch (Exception e) {
@@ -86,7 +86,7 @@ public class Eight_Puzzle {
         }
     }
 
-    //start hill climbing search for 8-puzzle problem
+
     public void hill_climbing_search() throws Exception {
 
         while (true) {
@@ -94,12 +94,11 @@ public class Eight_Puzzle {
             System.out.println("cost/steps: " + (++stepCounter));
             System.out.println("-------------");
 
-            //Priority.preState = game_board;//change pre state
+            //Priority.preState = game_board;
             Node lowestPossible_fn_node = getLowestPossible_fn_node();
-            addToStackState(Priority.neighbors_nodeArray);//add neighbors to stack in high to low order fn
+            addToStackState(Priority.neighbors_nodeArray);
 
             printState(lowestPossible_fn_node.state, "-------new state");
-            //print all fn values
 //            System.out.print("all sorted fn of current state: ");
 //            for (int i = 0; i < Priority.neighbors_nodeArray.length; i++) {
 //                System.out.print(Priority.neighbors_nodeArray[i].fn + " ");
@@ -109,11 +108,11 @@ public class Eight_Puzzle {
             //check for local maxima
             int fnCounter = 1;
             for (int i = 1; i < Priority.neighbors_nodeArray.length; i++) {
-                if (Priority.neighbors_nodeArray[i - 1].fn == Priority.neighbors_nodeArray[i].fn) {//fns are equal
+                if (Priority.neighbors_nodeArray[i - 1].fn == Priority.neighbors_nodeArray[i].fn) {
                     fnCounter++;
                 }
             }
-            if (Priority.neighbors_nodeArray.length != 1 && fnCounter == Priority.neighbors_nodeArray.length) {//all fns are equal, equal chances to choose
+            if (Priority.neighbors_nodeArray.length != 1 && fnCounter == Priority.neighbors_nodeArray.length) {
                 System.out.println("---fn's are equal, found in local maxima---");
 
                 //backtracking
@@ -128,20 +127,20 @@ public class Eight_Puzzle {
 
                 if (stack_state != null) {
                     Node gameNode = stack_state.pop();
-                    game_board = gameNode.state;//update game board
-                    Priority.preState = gameNode.parent;//update prestate
-                    locateEmptyTilePosition();//locate empty tile for updated state
+                    game_board = gameNode.state;
+                    Priority.preState = gameNode.parent;
+                    locateEmptyTilePosition();
 
                     printState(game_board, "popped state from all equal fn");
                     System.out.println("empty tile position: " + emptyTile_row + ", " + emptyTile_col);
                 } else {
                     System.out.println("stack empty inside first lm check");
                 }
-            } else {//for backtracking
+            } else {
 
                 System.out.println("lowest fn: " + lowestPossible_fn_node.fn);
 
-                if (lowestPossible_fn_node.fn == 0) {//no misplaced found
+                if (lowestPossible_fn_node.fn == 0) {
                     System.out.println("-------------------------");
                     System.out.println("8-Puzzle has been solved!");
                     System.out.println("-------------------------");
@@ -152,13 +151,13 @@ public class Eight_Puzzle {
 
                 if (lowestPossible_fn_node.fn <= min_fn) {
                     min_fn = lowestPossible_fn_node.fn;
-                    min_fn_node = lowestPossible_fn_node;//store lowest fn solution
+                    min_fn_node = lowestPossible_fn_node;
 
                     if (stack_state != null) {
                         Node gameNode = stack_state.pop();
-                        game_board = gameNode.state;//update game board
-                        Priority.preState = gameNode.parent;//update prestate
-                        locateEmptyTilePosition();//locate empty tile for updated state
+                        game_board = gameNode.state;
+                        Priority.preState = gameNode.parent;
+                        locateEmptyTilePosition();
 
                         printState(game_board, "-------new state as going deeper");
                         System.out.println("empty tile position: " + emptyTile_row + ", " + emptyTile_col);
@@ -184,18 +183,18 @@ public class Eight_Puzzle {
                     if (stack_state != null) {
 
                         Node gameNode = stack_state.pop();
-                        game_board = gameNode.state;//update game board
-                        Priority.preState = gameNode.parent;//update prestate
-                        locateEmptyTilePosition();//locate empty tile for updated state
+                        game_board = gameNode.state;
+                        Priority.preState = gameNode.parent;
+                        locateEmptyTilePosition();
 
                         printState(game_board, "popped state from getting higher");
                         System.out.println("empty tile position: " + emptyTile_row + ", " + emptyTile_col);
                     } else {
                         System.out.println("stack empty inside second lm check");
                     }
-                }//end of if cond: new fn<=pre min fn
-            }//end of if cond: all fn equal
-        }//while end
+                }
+            }
+        }
     }
 
     private Node getLowestPossible_fn_node() {
@@ -258,7 +257,6 @@ public class Eight_Puzzle {
         return null;
     }
 
-    //----------------------------
     //return number of misplaced tiles for left state
     private Node get_fn_left() {
 
@@ -266,15 +264,15 @@ public class Eight_Puzzle {
         for (int i = 0; i < game_board.length; i++) {
             for (int j = 0; j < game_board[0].length; j++) {
 
-                if (i == emptyTile_row && j == emptyTile_col) {//empty tile, swap left
+                if (i == emptyTile_row && j == emptyTile_col) {
                     left_state[i][j] = game_board[i][j - 1];
                     left_state[i][j - 1] = game_board[i][j];
-                } else {//normal copy
+                } else {
                     left_state[i][j] = game_board[i][j];
                 }
             }
         }
-        printState(left_state, "left state");//print left state
+        printState(left_state, "left state");
         Node node = new Node(get_fn(left_state), left_state, game_board);
         return node;
     }
@@ -286,17 +284,17 @@ public class Eight_Puzzle {
         for (int i = 0; i < game_board.length; i++) {
             for (int j = 0; j < game_board[0].length; j++) {
 
-                if (i == emptyTile_row && j == emptyTile_col) {//empty tile, swap right
+                if (i == emptyTile_row && j == emptyTile_col) {
                     right_state[i][j] = game_board[i][j + 1];
                     right_state[i][j + 1] = game_board[i][j];
-                    j++;//as j++ position already copied/updated
-                } else {//normal copy
+                    j++;
+                } else {
                     right_state[i][j] = game_board[i][j];
                 }
             }
         }
 
-        printState(right_state, "right state");//print right state
+        printState(right_state, "right state");
         Node node = new Node(get_fn(right_state), right_state, game_board);
         return node;
     }
@@ -308,15 +306,15 @@ public class Eight_Puzzle {
         for (int i = 0; i < game_board.length; i++) {
             for (int j = 0; j < game_board[0].length; j++) {
 
-                if (i == emptyTile_row && j == emptyTile_col) {//empty tile, swap up
+                if (i == emptyTile_row && j == emptyTile_col) {
                     up_state[i][j] = game_board[i - 1][j];
                     up_state[i - 1][j] = game_board[i][j];
-                } else {//normal copy
+                } else {
                     up_state[i][j] = game_board[i][j];
                 }
             }
         }
-        printState(up_state, "up state");//print up state
+        printState(up_state, "up state");
         Node node = new Node(get_fn(up_state), up_state, game_board);
         return node;
     }
@@ -328,15 +326,15 @@ public class Eight_Puzzle {
         for (int i = 0; i < game_board.length; i++) {
             for (int j = 0; j < game_board[0].length; j++) {
 
-                if ((i - 1) == emptyTile_row && j == emptyTile_col) {//down pos of empty tile, swap down
+                if ((i - 1) == emptyTile_row && j == emptyTile_col) {
                     down_state[i][j] = game_board[i - 1][j];
                     down_state[i - 1][j] = game_board[i][j];
-                } else {//normal copy
+                } else {
                     down_state[i][j] = game_board[i][j];
                 }
             }
         }
-        printState(down_state, "down state");//print down state
+        printState(down_state, "down state");
         Node node = new Node(get_fn(down_state), down_state, game_board);
         return node;
     }
@@ -347,7 +345,7 @@ public class Eight_Puzzle {
         int fn_count = 0;
         for (int i = 0; i < game_state.length; i++) {
             for (int j = 0; j < game_state[0].length; j++) {
-                if (game_state[i][j] != goal_state[i][j] && game_state[i][j] != 0) {//found misplaced tiles
+                if (game_state[i][j] != goal_state[i][j] && game_state[i][j] != 0) {
                     fn_count++;
                 }
             }
@@ -358,14 +356,14 @@ public class Eight_Puzzle {
     //takes parent removed,  sorted node array and add states to stack in high to low order
     private void addToStackState(Node nodeArray[]) {
         for (int i = nodeArray.length - 1; i >= 0; i--) {
-            stack_state.add(nodeArray[i]);//highest fn to lowest fn
+            stack_state.add(nodeArray[i]);
         }
     }
 
     //find out the new empty tile position for current state
     private void locateEmptyTilePosition() {
 
-        nestedloop://to break inner and outer loop
+        nestedloop:
         for (int i = 0; i < game_board.length; i++) {
             for (int j = 0; j < game_board[0].length; j++) {
                 if (game_board[i][j] == 0) {

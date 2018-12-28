@@ -2,15 +2,15 @@ import java.util.Arrays;
 
 
 public class Priority {
-   static int[][] preState;//keeps the previous state
+   static int[][] preState;
     static Node neighbors_nodeArray[];
 
     //takes an node array, sort nodes based on distance of fn
     //and return lowest fn node
     public static Node sort(Node[] nodeArray) {
 
-        if(preState!=null){//parent exists
-            nodeArray = getParentRemovedNodeArray(nodeArray, preState);//remove parent
+        if(preState!=null){
+            nodeArray = getParentRemovedNodeArray(nodeArray, preState);
         }
 
         //sorting nodes based on fn
@@ -44,11 +44,11 @@ public class Priority {
     }
 }
 
-//Node class
+
 class Node {
 
-    int fn;//fn value
-    int[][] state;//states
+    int fn;
+    int[][] state;
     int [][] parent;
     public Node(int fn, int[][] state, int[][]parent) {
         this.fn = fn;
